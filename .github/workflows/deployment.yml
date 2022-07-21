@@ -1,0 +1,32 @@
+name: BUILD-AND-DEPLOY
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+#    if: contains(github.event.pull_request.labels.*.name, 'safe to build/test')
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Configure AWS credentials.js
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-central-1
+      - name: Setup Node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - run: yarn install
+      - run: |
+          touch .env
+          echo VUE_APP_ENV="dev" >> .env
+          echo VUE_APP_ENV="https://api.alphacorp.vsk.gr/api" >> .env
+          echo VUE_CLI_BABEL_TRANSPILE_MODULES="true" >> .env
+      - run: yarn build
+      - name: Deploy to s3
+        run: aws s3 sync ./dist/ s3://pi-verifier.vsk --delete
