@@ -7,7 +7,7 @@ const router = new VueRouter({
     base: '/',
     routes: [
         {
-            path: '/home',
+            path: '/',
             name: 'AskCredentials',
             component: () => import('@/components/AskCredentials'),
             meta: {
