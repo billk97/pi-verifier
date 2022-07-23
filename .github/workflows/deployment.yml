@@ -1,7 +1,7 @@
 name: BUILD-AND-DEPLOY
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
   workflow_dispatch:
 jobs:
   build:
