@@ -16,6 +16,13 @@ export default {
         })
     },
 
+    verify(id) {
+        return api({
+            url: `/present-proof-2.0/records/${id}/verify-presentation`,
+            method: 'POST'
+        })
+    },
+
     delete(id) {
         return api({
             url: `/present-proof-2.0/records/${id}`,

@@ -77,6 +77,7 @@
             this.checkIfHasWallet()
             this.createInvitationIfNotExist()
             this.checkIfConnectionHasBeenAccepted()
+            this.checkIfHolderHasSendCredentials()
             // check if invitation status has changed
             // once changed do action
             // once status complited
@@ -157,6 +158,10 @@
                 }, 5000)
             },
             async askForCreds() {
+                if (this.getPresExId) {
+                    console.log("PresExId already exist")
+                    return
+                }
                 console.log("sending request")
                 const resp = await presentproof.sendRequest(this.getConnectionId)
                 this.$store.dispatch('updatePresExId', resp.data.pres_ex_id)
@@ -169,8 +174,17 @@
                         clearInterval(this.proofRecivedInerval)
                         return
                     }
-                    const resp = await presentproof.getRequestById(this.getConnectionId)
+                    if (!this.getConnectionId) {
+                        // clearInterval(this.proofRecivedInerval)
+                        return
+                    }
+                    if (!this.getPresExId) {
+                        // clearInterval(this.proofRecivedInerval)
+                        return
+                    }
+                    const resp = await presentproof.getRequestById(this.getPresExId)
                     const con = resp.data
+                    console.log("check credentials state", con.state)
                     if (con.state === 'presentation-received') {
                         console.log("proof recived and state is presentation-received")
                         this.proofRecived = true
@@ -180,11 +194,13 @@
                         this.proofRecived = true
                         clearInterval(this.proofRecivedInerval)
                     }
-                })
+                }, 5000)
             },
             async verifyCredentials() {
-                const resp = await presentproof.getRequestById(this.getPresExId)
+                const resp = await presentproof.verify(this.getPresExId)
+                console.log("verifing proof", resp.data)
                 if (resp.data.verified) {
+                    console.log("proof is valid")
                     this.isVerified = true
                 }
 
