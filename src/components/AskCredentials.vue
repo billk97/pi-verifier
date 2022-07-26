@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="custom-container verifier-background" :class="{'verifier-background-green': isVerified}">
         <div v-if="!isVerified">
             <h1>Room is locked !</h1>
             <h2>To access the room please scan the bellow qr code and provide some credentials</h2>
@@ -73,26 +73,13 @@
                 proofRecived: false,
             }
         },
-        created () {
-            this.checkIfHasWallet()
-            this.createInvitationIfNotExist()
+        async created () {
+            await this.checkIfHasWallet()
+            await this.createInvitationIfNotExist()
             this.checkIfConnectionHasBeenAccepted()
             this.checkIfHolderHasSendCredentials()
-            // check if invitation status has changed
-            // once changed do action
-            // once status complited
-            // initiate present-proof protocol
-            // check periodically if status has changed
-            // verify presentation
-            // show responce
-            // this.deleteOrphanConnections()
         },
         methods: {
-            changeToVerifed() {
-                setTimeout(() => {
-                    // this.isVerified = true;
-                }, 5000)
-            },
             async checkIfHasWallet() {
                 let resp = null
                 try {
@@ -219,8 +206,9 @@
 
 <style scoped>
 
-    .container {
+    .custom-container {
         color: #ffffff;
+        width: 100%;
         font-weight: bold;
     }
     .qr-code {
@@ -231,5 +219,14 @@
         width: fit-content;
         margin: 0 auto;
     }
+    .verifier-background {
+        background-image: url('~@/assets/background.png') ;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        width: 100%;
+    }
 
+    .verifier-background-green {
+        background-image: url('~@/assets/green-background.png') ;
+    }
 </style>

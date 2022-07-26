@@ -57,23 +57,22 @@ export default {
                                     id: "employ_id_room_1",
                                     name: "Rooms credentials",
                                     schema: [
-                                    {
-                                        uri: "https://www.w3.org/2018/credentials#VerifiableCredential"
-                                    },
-                                    {
-                                        uri: "https://api.alphacorp.vsk.gr/contexts/rooms/v1"
-                                    },
-                                    {
-                                        uri: "https://api.alphacorp.vsk.gr/contexts/alphacorp-employee#jobTitle"
-                                    }
+                                        {
+                                            uri: "https://www.w3.org/2018/credentials#VerifiableCredential"
+                                        },
+                                        {
+                                            uri: "https://api.alphacorp.vsk.gr/contexts/rooms#RoomsCredential"
+                                        },
+                                        {
+                                            uri: "https://api.alphacorp.vsk.gr/contexts/alphacorp-employee#AlphacorpCredential"
+                                        }
                                     ],
                                     constraints: {
+                                        limit_disclosure: "required",
                                         is_holder: [
                                             {
-                                            directive: "required",
-                                            field_id: [
-                                                "1f44d55f-f161-4938-a659-f8026467f126"
-                                            ]
+                                                directive: "required",
+                                                field_id: ["1f44d55f-f161-4938-a659-f8026467f126"]
                                             }
                                         ],
                                         fields: [
