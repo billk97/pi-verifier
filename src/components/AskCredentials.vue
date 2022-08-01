@@ -134,7 +134,7 @@
                     const con = resp.data
                     if (con.rfc23_state === 'request-received') {
                         console.log("state: ",con.rfc23_state, " connection: ", this.getConnectionId )
-                        connections.accept(con.connection_id)
+                        await connections.accept(con.connection_id)
                         this.connectionCompleted = true
                         clearInterval(this.acceptConnectionInterval)
                     } else if (con.rfc23_state === 'completed') {
@@ -145,6 +145,11 @@
                 }, 5000)
             },
             async askForCreds() {
+                if (!this.connectionCompleted) {
+                    setTimeout(() => {
+                        console.log("waiting 2 seconds")
+                    }, 2000)
+                }
                 if (this.getPresExId) {
                     console.log("PresExId already exist")
                     return

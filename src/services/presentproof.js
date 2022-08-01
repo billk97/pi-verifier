@@ -61,14 +61,10 @@ export default {
                                             uri: "https://www.w3.org/2018/credentials#VerifiableCredential"
                                         },
                                         {
-                                            uri: "https://api.alphacorp.vsk.gr/contexts/rooms#RoomsCredential"
-                                        },
-                                        {
                                             uri: "https://api.alphacorp.vsk.gr/contexts/alphacorp-employee#AlphacorpCredential"
                                         }
                                     ],
                                     constraints: {
-                                        limit_disclosure: "required",
                                         is_holder: [
                                             {
                                                 directive: "required",
@@ -79,14 +75,13 @@ export default {
                                             {
                                                 id: "1f44d55f-f161-4938-a659-f8026467f126",
                                                 path: [
-                                                    "$.credentialSubject.givenName"
+                                                    "$.credentialSubject.jobTitle"
                                                 ],
                                                 purpose: "The claim must be from one of the specified issuers",
                                                 predicate: "required",
                                                 directive: "required",
                                                 filter: {
-                                                    type: "string",
-                                                    const: "not-bill"
+                                                    const: "softwareEnginner"
                                                 }
                                             }
                                         ]
