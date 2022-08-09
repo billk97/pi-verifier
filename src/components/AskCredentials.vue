@@ -88,7 +88,6 @@
                 } catch (e) {
                     this.createWallet()
                 }
-                
             },
             async createWallet() {
                 const resp = await multitenancy.createVerifierWallet()
@@ -191,7 +190,9 @@
             async verifyCredentials() {
                 const resp = await presentproof.verify(this.getPresExId)
                 console.log("verifing proof", resp.data)
-                if (resp.data.verified) {
+                const containsRoom = resp.data.by_format.pres.dif.verifiableCredential[0].credentialSubject.RoomCredential
+                const includesRequestedRoom = containsRoom.includes("CAN_ACCESS_ROOM_1")
+                if (resp.data.verified && includesRequestedRoom) {
                     console.log("proof is valid")
                     this.isVerified = true
                 }

@@ -81,7 +81,7 @@ export default {
                                                 predicate: "required",
                                                 directive: "required",
                                                 filter: {
-                                                    const: "softwareEnginner"
+                                                    const: "software engineer"
                                                 }
                                             }
                                         ]
